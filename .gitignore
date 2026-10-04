@@ -1,0 +1,15 @@
+build/
+out/
+.vs/
+.vscode/
+CMakeUserPresets.json
+*.user
+*.suo
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.dll
+*.lib
+!external/lib/EuroScopePlugInDll.lib
+external/lib/*.dll
