@@ -1,15 +1,15 @@
 # Selcaller
 
-EuroScope plugin to display and edit a pilot’s SELCAL code stored in flight-plan remarks as `SEL/ABCD`.
+EuroScope plugin to display and edit a pilot’s SELCAL code stored in flight-plan remarks as `SEL/ABCD` (SELCAL32 supported)
 
 ## Features
 
-- **SELCAL** list/TAG item — shows the current code (`ABCD`), or blank if none
+- **SELCAL** list/TAG item — shows the current code (`ABCD` or e.g. `D3W5`), or blank if none
 - **Edit SELCAL** list/TAG action — popup edit to add, change, or clear the code
 
-Accepted input formats: `ABCD`, `AB-CD`, lowercase. Clearing the edit box removes `SEL/...` from remarks.
+Accepted input formats: `ABCD`, `AB-CD`, `D3W5`, lowercase. Clearing the edit box removes `SEL/...` from remarks.
 
-ICAO-invalid codes (wrong letters, duplicates, out-of-order pairs) are still allowed and shown in **orange** as a warning.
+Supports the SELCAL32 designator set (A–H, J–M, P–S, T–Z, 1–9). ICAO-invalid codes (wrong characters, duplicates, out-of-order pairs) are still allowed and shown in **orange** as a warning.
 
 ## Requirements
 

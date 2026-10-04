@@ -52,7 +52,7 @@ void SelCallerPlugin::OnGetTagItem(EuroScopePlugIn::CFlightPlan FlightPlan,
 
   strncpy_s(sItemString, 16, code->c_str(), _TRUNCATE);
 
-  // Warn on ICAO-invalid codes (wrong letters, duplicates, out-of-order pairs).
+  // Warn on ICAO-invalid codes (wrong designators, duplicates, out-of-order pairs).
   if (!Selcal::IsValidCode(*code) && pColorCode && pRGB) {
     *pColorCode = EuroScopePlugIn::TAG_COLOR_RGB_DEFINED;
     *pRGB = RGB(255, 165, 0);
@@ -86,7 +86,7 @@ void SelCallerPlugin::OnFunctionCall(int FunctionId,
   const std::string input = sItemString ? sItemString : "";
   const auto normalized = Selcal::NormalizeCode(input);
   if (!normalized) {
-    DisplayMessage("SELCAL must be four letters (e.g. ABCD or AB-CD), or empty to clear.",
+    DisplayMessage("SELCAL must be four characters (e.g. ABCD, AB-CD, or D3W5), or empty to clear.",
                    "Edit SELCAL");
     return;
   }

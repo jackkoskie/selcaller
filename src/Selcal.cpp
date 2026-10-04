@@ -10,16 +10,28 @@
 namespace Selcal {
 namespace {
 
-// Match any four-letter SEL/ token so invalid codes can still be shown and edited.
-const std::regex kSelToken(R"((\s+|^)SEL/([A-Za-z]{4})(\s+|$))", std::regex::icase);
+// Match any four alphanumeric SEL/ token so invalid codes can still be shown and edited.
+const std::regex kSelToken(R"((\s+|^)SEL/([A-Za-z0-9]{4})(\s+|$))", std::regex::icase);
 
-bool IsAllowedLetter(char c)
+// SELCAL32 tone designators in ascending alphanumeric order (I, N, O omitted; digits after Z).
+constexpr const char* kAlphabet = "ABCDEFGHJKLMPQRSTUVWXYZ123456789";
+
+bool IsAllowedDesignator(char c)
 {
-  static constexpr const char* kAlphabet = "ABCDEFGHJKLMPQRS";
   return std::strchr(kAlphabet, c) != nullptr;
 }
 
-bool HasDuplicateLetter(const std::string& code)
+// Index in kAlphabet, or -1 if not a SELCAL32 designator.
+int ToneIndex(char c)
+{
+  const char* found = std::strchr(kAlphabet, c);
+  if (!found) {
+    return -1;
+  }
+  return static_cast<int>(found - kAlphabet);
+}
+
+bool HasDuplicateDesignator(const std::string& code)
 {
   std::unordered_set<char> seen;
   for (char c : code) {
@@ -32,7 +44,14 @@ bool HasDuplicateLetter(const std::string& code)
 
 bool HasOutOfOrderPairs(const std::string& code)
 {
-  return code[0] > code[1] || code[2] > code[3];
+  const int a = ToneIndex(code[0]);
+  const int b = ToneIndex(code[1]);
+  const int c = ToneIndex(code[2]);
+  const int d = ToneIndex(code[3]);
+  if (a < 0 || b < 0 || c < 0 || d < 0) {
+    return true;
+  }
+  return a > b || c > d;
 }
 
 std::string Trim(const std::string& value)
@@ -45,7 +64,7 @@ std::string Trim(const std::string& value)
   return value.substr(start, end - start + 1);
 }
 
-std::string ToUpperLetters(const std::string& input)
+std::string ToUpperAlphanumeric(const std::string& input)
 {
   std::string code;
   code.reserve(input.size());
@@ -58,6 +77,11 @@ std::string ToUpperLetters(const std::string& input)
   return code;
 }
 
+bool IsAlphanumeric(char c)
+{
+  return (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9');
+}
+
 } // namespace
 
 bool IsValidCode(const std::string& code)
@@ -66,11 +90,11 @@ bool IsValidCode(const std::string& code)
     return false;
   }
   for (char c : code) {
-    if (!IsAllowedLetter(c)) {
+    if (!IsAllowedDesignator(c)) {
       return false;
     }
   }
-  if (HasDuplicateLetter(code) || HasOutOfOrderPairs(code)) {
+  if (HasDuplicateDesignator(code) || HasOutOfOrderPairs(code)) {
     return false;
   }
   return true;
@@ -91,7 +115,7 @@ std::optional<std::string> ParseFromRemarks(const std::string& remarks)
 
 std::optional<std::string> NormalizeCode(const std::string& input)
 {
-  const std::string code = ToUpperLetters(input);
+  const std::string code = ToUpperAlphanumeric(input);
 
   if (code.empty()) {
     return std::string{};
@@ -100,7 +124,7 @@ std::optional<std::string> NormalizeCode(const std::string& input)
     return std::nullopt;
   }
   for (char c : code) {
-    if (c < 'A' || c > 'Z') {
+    if (!IsAlphanumeric(c)) {
       return std::nullopt;
     }
   }
