@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(selcaller VERSION "1.0.1") # x-release-please-version
+project(selcaller VERSION "1.1.0") # x-release-please-version
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_CXX_STANDARD 20)
