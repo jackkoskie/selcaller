@@ -5,8 +5,8 @@
 namespace {
 const char* PLUGIN_NAME{"Selcaller"};
 const char* PLUGIN_VERSION{"@CMAKE_PROJECT_VERSION@"};
-const char* PLUGIN_AUTHOR{"selcaller"};
-const char* PLUGIN_LICENSE{"MIT"};
+const char* PLUGIN_AUTHOR{"Jack Koskie"};
+const char* PLUGIN_LICENSE{"AGPL-3.0"};
 
 static constexpr std::uint8_t PLUGIN_VERSION_MAJOR = @CMAKE_PROJECT_VERSION_MAJOR@;
 static constexpr std::uint8_t PLUGIN_VERSION_MINOR = @CMAKE_PROJECT_VERSION_MINOR@;
