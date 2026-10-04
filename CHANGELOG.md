@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/jackkoskie/selcaller/compare/selcaller-v1.0.0...selcaller-v1.0.1) (2026-10-04)
+
+
+### Bug Fixes
+
+* update license ([bb88b69](https://github.com/jackkoskie/selcaller/commit/bb88b69518e9d20ac7fd05631e404d721961ddcf))
+
 ## 1.0.0 (2026-10-04)
 
 
